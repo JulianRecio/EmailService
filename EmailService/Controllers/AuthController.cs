@@ -28,6 +28,16 @@ namespace EmailService.Controllers
             return Ok(user);
         }
 
+
+        [HttpPost("register/admin")]
+        public async Task<ActionResult<User>> RegisterAdmin(UserDto request)
+        {
+            var user = await authService.RegisterAdminAsync(request);
+            if (user == null) { return BadRequest("Email already registered"); }
+
+            return Ok(user);
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult<TokenResponseDto>> Login(UserDto request)
         {

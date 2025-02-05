@@ -43,6 +43,7 @@ namespace EmailService.Services
 
             user.Email = request.Email;
             user.PasswordHash = hashedPassword;
+            user.Role = "User";
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -119,5 +120,26 @@ namespace EmailService.Services
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
+        public async Task<User?> RegisterAdminAsync(UserDto request)
+        {
+            if (await context.Users.AnyAsync(u => u.Email == request.Email))
+            {
+                return null;
+            }
+
+            var user = new User();
+
+            var hashedPassword = new PasswordHasher<User>()
+                .HashPassword(user, request.Password);
+
+            user.Email = request.Email;
+            user.PasswordHash = hashedPassword;
+            user.Role = "Admin";
+
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+
+            return user;
+        }
     }
 }
