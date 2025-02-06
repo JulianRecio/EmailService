@@ -1,7 +1,7 @@
 ﻿using EmailService.Dtos;
 using EmailService.Entities;
 
-namespace EmailService.Services
+namespace EmailService.Services.Interfaces
 {
     public interface IAuthService
     {

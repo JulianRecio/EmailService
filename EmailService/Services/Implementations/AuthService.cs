@@ -5,11 +5,12 @@ using System.Text;
 using EmailService.Data;
 using EmailService.Dtos;
 using EmailService.Entities;
+using EmailService.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EmailService.Services
+namespace EmailService.Services.Implementations
 {
     public class AuthService(UserDbContext context, IConfiguration configuration) : IAuthService
     {
@@ -32,7 +33,8 @@ namespace EmailService.Services
 
         public async Task<User?> RegisterAsync(UserDto request)
         {
-            if (await context.Users.AnyAsync(u => u.Email == request.Email)) {
+            if (await context.Users.AnyAsync(u => u.Email == request.Email))
+            {
                 return null;
             }
 
@@ -71,23 +73,26 @@ namespace EmailService.Services
             };
         }
 
-        private async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken) {
+        private async Task<User?> ValidateRefreshTokenAsync(Guid userId, string refreshToken)
+        {
             var user = await context.Users.FindAsync(userId);
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiaryTime <= DateTime.UtcNow) { 
+            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiaryTime <= DateTime.UtcNow)
+            {
                 return null;
             }
-             return user;
+            return user;
         }
 
-        private string GenerateRefreshToken() 
+        private string GenerateRefreshToken()
         {
-            var randomNumber = new byte[32]; 
+            var randomNumber = new byte[32];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
 
-        private async Task<string> GenerateAndSaveRefreshTokenAsync(User user) { 
+        private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
+        {
             var refreshToken = GenerateRefreshToken();
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiaryTime = DateTime.UtcNow.AddDays(7);

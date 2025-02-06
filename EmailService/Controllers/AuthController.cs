@@ -1,15 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using EmailService.Dtos;
+﻿using EmailService.Dtos;
 using EmailService.Entities;
-using EmailService.Services;
+using EmailService.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.IdentityModel.Tokens;
 
 namespace EmailService.Controllers
 {
@@ -17,7 +10,6 @@ namespace EmailService.Controllers
     [ApiController]
     public class AuthController(IAuthService authService) : ControllerBase
     {
-        public static User user = new();
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
