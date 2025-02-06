@@ -80,5 +80,16 @@ namespace EmailService.Services.Implementations
                 scope.Dispose();
             }
         }
+
+        public async Task<int> MailsSentToday()
+        {
+            using var scope = scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+            DateTime dateTime = DateTime.Now;
+
+            return await dbContext.EmailRecipts.CountAsync(e => e.DateTime.Date == dateTime.Date);
+        }
+
+
     }
 }

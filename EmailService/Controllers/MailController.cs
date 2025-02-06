@@ -37,10 +37,11 @@ namespace EmailService.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("stats")]
-        public IActionResult recoverStats() {
-            DateTime dateTime = DateTime.Now;
+        public async Task<IActionResult> recoverStats() {
 
-            return Ok(dateTime.ToString());
+            int mailsSent = await mailService.MailsSentToday();
+            
+            return Ok(mailsSent);
         }
     }
 }
