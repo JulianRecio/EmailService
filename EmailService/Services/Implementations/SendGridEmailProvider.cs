@@ -23,10 +23,10 @@ namespace EmailService.Services.Implementations
             var message = new SendGridMessage
             {
                 From = new EmailAddress("julian.recio@ing.austral.edu.ar", "Email service"),
-                Subject = sendEmailDto.subject,
-                HtmlContent = sendEmailDto.body
+                Subject = sendEmailDto.Subject,
+                HtmlContent = sendEmailDto.Body
             };
-            message.AddTo(new EmailAddress(sendEmailDto.to));
+            message.AddTo(new EmailAddress(sendEmailDto.To));
 
             var response = await client.SendEmailAsync(message);
             return response.StatusCode == System.Net.HttpStatusCode.Accepted;

@@ -4,6 +4,6 @@ namespace EmailService.Services.Interfaces
 {
     public interface IMailService
     {
-        Task SendEmailAsync(SendMailDto sendEmailDto);
+        Task SendEmailAsync(SendMailDto sendEmailDto, string Sender);
     }
 }
