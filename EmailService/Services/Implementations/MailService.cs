@@ -44,8 +44,13 @@ namespace EmailService.Services.Implementations
 
                 int sentEmailsToday = await dbContext.EmailRecipts
                     .CountAsync(e =>
-                        e.User.Id == senderUser.Id &&  
+                        e.User.Id == senderUser.Id &&
                         e.DateTime.Date == DateTime.UtcNow.Date);
+
+                if (sentEmailsToday >= 1000)
+                {
+                    throw new InvalidOperationException("Limit for the day reached");
+                }
 
                 foreach (var provider in providers)
                 {
@@ -56,7 +61,7 @@ namespace EmailService.Services.Implementations
                             var emailReceipt = new EmailRecipt
                             {
                                 Id = Guid.NewGuid(),
-                                User = senderUser,  
+                                User = senderUser,
                                 DateTime = DateTime.UtcNow,
                                 To = request.To,
                                 Subject = request.Subject,

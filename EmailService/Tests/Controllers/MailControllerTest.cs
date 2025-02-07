@@ -10,12 +10,12 @@ using Xunit;
 
 namespace EmailService.Tests.Controllers
 {
-    public class EmailControllerTest
+    public class MailControllerTest
     {
         private readonly Mock<IMailService> _mailServiceMock;
         private readonly MailController _controller;
 
-        public EmailControllerTest()
+        public MailControllerTest()
         {
             _mailServiceMock = new Mock<IMailService>();
             _controller = new MailController(_mailServiceMock.Object);
