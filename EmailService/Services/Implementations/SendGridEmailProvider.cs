@@ -1,4 +1,5 @@
-﻿using EmailService.Services.Interfaces;
+﻿
+using EmailService.Services.Interfaces;
 using SendGrid.Helpers.Mail;
 using SendGrid;
 using EmailService.Dtos;

@@ -2,6 +2,7 @@
 using EmailService.Dtos;
 using EmailService.Entities;
 using EmailService.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmailService.Services.Implementations
@@ -81,13 +82,22 @@ namespace EmailService.Services.Implementations
             }
         }
 
-        public async Task<int> MailsSentToday()
+        public async Task<List<UserMailCountDto>> MailsSentToday()
         {
             using var scope = scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
             DateTime dateTime = DateTime.Now;
 
-            return await dbContext.EmailRecipts.CountAsync(e => e.DateTime.Date == dateTime.Date);
+            return await dbContext.EmailRecipts
+                .Where(e => e.DateTime.Date == dateTime.Date)
+                .GroupBy(e => new { e.User.Id, e.User.Email })
+                .Select(g => new UserMailCountDto
+                {
+                    UserId = g.Key.Id,
+                    Email = g.Key.Email,
+                    SentCount = g.Count()
+                })
+                .ToListAsync();
         }
 
 

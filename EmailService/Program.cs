@@ -44,7 +44,7 @@ Env.Load();
 
 builder.Configuration.AddEnvironmentVariables();
 
-var sendGridApuKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+var sendGridApiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
 
 var app = builder.Build();
 

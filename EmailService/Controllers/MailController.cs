@@ -39,7 +39,7 @@ namespace EmailService.Controllers
         [HttpGet("stats")]
         public async Task<IActionResult> recoverStats() {
 
-            int mailsSent = await mailService.MailsSentToday();
+            List<UserMailCountDto> mailsSent = await mailService.MailsSentToday();
             
             return Ok(mailsSent);
         }

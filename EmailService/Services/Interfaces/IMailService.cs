@@ -1,4 +1,5 @@
 ﻿using EmailService.Dtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EmailService.Services.Interfaces
 {
@@ -6,6 +7,6 @@ namespace EmailService.Services.Interfaces
     {
         Task SendEmailAsync(SendMailDto sendEmailDto, string Sender);
 
-        Task<int> MailsSentToday();
+        Task<List<UserMailCountDto>> MailsSentToday();
     }
 }
