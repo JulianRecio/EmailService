@@ -21,6 +21,8 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 );
 
 builder.Services.AddScoped<IEmailProvider, SendGridEmailProvider>();
+builder.Services.AddScoped<IEmailProvider, MailgunEmailProvider>();
+
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMailService, MailService>();
@@ -45,6 +47,7 @@ Env.Load();
 builder.Configuration.AddEnvironmentVariables();
 
 var sendGridApiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+var mailGunApiKey = Environment.GetEnvironmentVariable("MAILGUN_API_KEY");
 
 var app = builder.Build();
 
